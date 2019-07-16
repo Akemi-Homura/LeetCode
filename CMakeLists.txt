@@ -1,8 +1,11 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 2.8)
 project(Leetcode)
 
 set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(p2_add_two_number)
+add_subdirectory(p8_string_to_integer)
+
+include_directories(include)
 
 add_executable(Leetcode main.cpp)
