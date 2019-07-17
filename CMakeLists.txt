@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(p2_add_two_number)
 add_subdirectory(p8_string_to_integer)
+add_subdirectory(p65_valid_number)
 
 include_directories(include)
 

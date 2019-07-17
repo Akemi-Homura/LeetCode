@@ -19,9 +19,9 @@ public:
         int ans = 0, pre = 0;
         memset(pos, -1, sizeof(pos));
         for (int i = 0; i < s.length(); i++) {
-            if (pos[(unsigned char) s[i]] != -1) {
+            if (pos[(unsigned char) s[i]] != -1 && pos[(unsigned char) s[i]] >=pre) {
                 ans = max(ans, i - pre);
-                pre = max(pre, pos[(unsigned char) s[i]])+1;
+                pre = pos[(unsigned char) s[i]]+1;
             } else {
                 ans = max(ans, i - pre + 1);
             }
@@ -37,9 +37,8 @@ Solution solution;
 
 void test(string s, int ans) {
     int res = solution.lengthOfLongestSubstring(s);
-    ostream &os = res == ans ? cout : cerr;
 
-    os << s << "\nres: " << res << "\nans: " << ans << endl;
+    cout << s << "\nres: " << res << "\nans: " << ans << endl;
 }
 
 int main() {
