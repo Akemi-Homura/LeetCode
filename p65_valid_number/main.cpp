@@ -13,20 +13,31 @@ public:
     bool checkNumber(const string &s, int &pos) {
         int e_pos = -1;
         int e_num = 0;
+        int i_ed;
         for (int i = 0; i < s.length(); i++) {
             if (s[i] == 'e') {
                 e_num++;
                 e_pos = i;
             }
         }
+        for (i_ed = pos; s[i_ed] != ' ' && i_ed < s.length(); i_ed++);
         if (e_num > 1) {
             return false;
         }
         if (e_pos != -1) {
-            return pos != e_pos && checkFloat(s, pos, e_pos) && e_pos + 1 != s.length() &&
-                   checkInteger(s, e_pos + 1, s.length());
+            return /*'e' 不能为第一个字符 */pos != e_pos && checkFloat(s, pos, e_pos) && /* 'e' 不能为最后一个字符 */e_pos + 1 != i_ed &&
+                                    checkInteger(s, e_pos + 1, i_ed) && checkBlack(s, i_ed, s.length());
         }
-        return checkFloat(s, pos, s.length());
+        return checkFloat(s, pos, i_ed) && checkBlack(s, i_ed, s.length());
+    }
+
+    bool checkBlack(const string &s, int st, int ed) {
+        for (int i = st; i < ed; i++) {
+            if (s[i] != ' ') {
+                return false;
+            }
+        }
+        return true;
     }
 
     bool checkFloat(const string &s, int st, int ed) {
@@ -45,9 +56,14 @@ public:
             return false;
         }
         if (dot_pos != -1) {
-            return checkInteger(s, st, dot_pos) && checkDigit(s, dot_pos + 1, ed);
+            return checkInteger(s, st, dot_pos, true) && checkDigit(s, dot_pos + 1, ed) &&
+                   /* 小数点前后必须有数字 */checkAroundDot(s, st, ed, dot_pos);
         }
         return st != ed && checkInteger(s, st, ed);
+    }
+
+    bool checkAroundDot(const string &s, int st, int ed, int dot_pos) {
+        return (dot_pos > st && isdigit(s[dot_pos - 1])) || (dot_pos < ed - 1 && isdigit(s[dot_pos + 1]));
     }
 
     bool checkDigit(const string &s, int st, int ed) {
@@ -59,9 +75,12 @@ public:
         return true;
     }
 
-    bool checkInteger(const string &s, int st, int ed) {
+    bool checkInteger(const string &s, int st, int ed, bool canBeEmpty = false) {
         if (s[st] == '+' || s[st] == '-') {
             st++;
+            if (st == ed && !canBeEmpty) {
+                return false;
+            }
         }
         return checkDigit(s, st, ed);
     }
@@ -106,4 +125,8 @@ int main() {
     test("  2.   ", true);
     test("+.8", true);
     test("46.e3", true);
+    test("4e+", false);
+    test("4e+1", true);
+    test("-.", false);
+    test("-.1", true);
 }
