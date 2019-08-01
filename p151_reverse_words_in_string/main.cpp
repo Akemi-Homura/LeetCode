@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <unistd.h>
+#include <Logger.h>
 
 using namespace std;
 
