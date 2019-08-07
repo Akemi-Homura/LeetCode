@@ -42,6 +42,7 @@ add_subdirectory(p65_valid_number)
 add_subdirectory(p151_reverse_words_in_string)
 add_subdirectory(p149_max_points_at_line)
 add_subdirectory(p3_longest_lubstring_without_repeating_characters)
+add_subdirectory(p1019_next_greater_node_in_linked_list)
 add_subdirectory(test)
 
 add_executable(Leetcode main.cpp)
